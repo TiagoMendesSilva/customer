@@ -8,25 +8,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/customers")
 public class CustomerController {
 
-
-
+    @Autowired
+    private CustomerService service;
 
     @GetMapping
     public ResponseEntity<List<Customer>> findAll(){
-        List<Customer> list = new ArrayList<>();
-
-        list.add(new Customer(1L, "Caetano", "12345678901", 0.0, Instant.now(),0));
-        list.add(new Customer(2L, "Tiago", "12345678901", 6000.0, Instant.now(),1));
-        list.add(new Customer(3L, "Itamara", "12345678901", 7000.0, Instant.now(),1));
-
+        List<Customer> list =service.findAll();
         return ResponseEntity.ok(list);
     }
 
