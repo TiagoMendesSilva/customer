@@ -1,2 +1,7 @@
-package com.customer.customer.services.exceptions;public class ResourceNotFoundException {
+package com.customer.customer.services.exceptions;
+
+public class ResourceNotFoundException extends RuntimeException{
+    public ResourceNotFoundException(String message){
+        super(message);
+    }
 }
