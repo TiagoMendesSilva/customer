@@ -24,13 +24,8 @@ public class CustomerService {
         return customers.stream().map(CustomerDTO::new).collect(Collectors.toList());
     }
 
-
     public CustomerDTO findById(Long id){
         Optional<Customer> obj = repository.findById(id);
-//        if(obj.isPresent()){
-//            Customer customer = obj.get();
-//            return new CustomerDTO(customer);
-//        } else throw new ResourceNotFoundException("Customer not found");
         Customer customer = obj.orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
         return new CustomerDTO(customer);
     }
