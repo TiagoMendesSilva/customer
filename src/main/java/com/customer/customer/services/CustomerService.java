@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerService {
@@ -20,10 +21,7 @@ public class CustomerService {
 
     public List<CustomerDTO> findAll(){
         List<Customer> customers = repository.findAll();
-        List<CustomerDTO> customersDTO = new ArrayList<>();
-        for(Customer customer : customers) {
-            customersDTO.add(new CustomerDTO(customer));
-        }
+        List<CustomerDTO> customersDTO = customers.stream().map(x -> new CustomerDTO(x) ).collect(Collectors.toList());
         return customersDTO;
     }
 
