@@ -1,19 +1,13 @@
 package com.customer.customer.resources;
 
 import com.customer.customer.dto.CustomerDTO;
-import com.customer.customer.resources.exceptions.StandardError;
 import com.customer.customer.services.CustomerService;
-import com.customer.customer.services.exceptions.ResourceNotFoundException;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.time.Instant;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -33,5 +27,12 @@ public class CustomerController {
     public ResponseEntity<CustomerDTO> findById(@PathVariable Long id){
         CustomerDTO customerDTO = service.findById(id);
         return ResponseEntity.ok(customerDTO);
+    }
+
+    @PostMapping
+    public ResponseEntity<CustomerDTO> insert(@RequestBody CustomerDTO customerDTO){
+        customerDTO = service.insert(customerDTO);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(customerDTO.getId()).toUri();
+        return ResponseEntity.created(uri).body(customerDTO);
     }
 }
