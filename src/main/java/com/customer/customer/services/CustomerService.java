@@ -21,8 +21,7 @@ public class CustomerService {
 
     public List<CustomerDTO> findAll(){
         List<Customer> customers = repository.findAll();
-        List<CustomerDTO> customersDTO = customers.stream().map(x -> new CustomerDTO(x) ).collect(Collectors.toList());
-        return customersDTO;
+        return customers.stream().map(CustomerDTO::new).collect(Collectors.toList());
     }
 
 
