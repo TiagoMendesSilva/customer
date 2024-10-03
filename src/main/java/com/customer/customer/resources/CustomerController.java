@@ -30,20 +30,8 @@ public class CustomerController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<?> findById(@PathVariable Long id, HttpServletRequest request){
-
-        try{
-            CustomerDTO customerDTO = service.findById(id);
-            return ResponseEntity.ok(customerDTO);
-
-        }catch (ResourceNotFoundException e){
-            StandardError error = new StandardError();
-            error.setTimestamp(Instant.now());
-            error.setStatus(HttpStatus.NOT_FOUND.value());
-            error.setError(HttpStatus.NOT_FOUND.name());
-            error.setMessage("Customer not found");
-            error.setPath(request.getRequestURI());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-        }
+    public ResponseEntity<CustomerDTO> findById(@PathVariable Long id){
+        CustomerDTO customerDTO = service.findById(id);
+        return ResponseEntity.ok(customerDTO);
     }
 }
