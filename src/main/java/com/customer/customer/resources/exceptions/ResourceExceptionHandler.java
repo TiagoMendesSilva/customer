@@ -1,5 +1,6 @@
 package com.customer.customer.resources.exceptions;
 
+import com.customer.customer.services.exceptions.DatabaseException;
 import com.customer.customer.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -20,5 +21,16 @@ public class ResourceExceptionHandler {
         error.setMessage("Customer not found");
         error.setPath(request.getRequestURI());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity<StandardError> database(ResourceNotFoundException e, HttpServletRequest request){
+        StandardError error = new StandardError();
+        error.setTimestamp(Instant.now());
+        error.setStatus(HttpStatus.BAD_REQUEST.value());
+        error.setError(HttpStatus.BAD_REQUEST.name());
+        error.setMessage("Database exception");
+        error.setPath(request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 }
