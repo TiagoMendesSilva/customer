@@ -8,12 +8,12 @@ import com.customer.customer.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CustomerService {
@@ -22,9 +22,9 @@ public class CustomerService {
     private CustomerRepository repository;
 
     @Transactional(readOnly = true)
-    public List<CustomerDTO> findAll(){
-        List<Customer> customers = repository.findAll();
-        return customers.stream().map(CustomerDTO::new).collect(Collectors.toList());
+    public Page<CustomerDTO> findAllPaged(PageRequest pageRequest){
+        Page<Customer> customers = repository.findAll(pageRequest);
+        return customers.map(CustomerDTO::new);
     }
 
     @Transactional(readOnly = true)
